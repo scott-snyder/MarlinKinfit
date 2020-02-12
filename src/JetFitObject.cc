@@ -120,7 +120,8 @@ JetFitObject::JetFitObject(double E, double theta, double phi,
 JetFitObject::~JetFitObject() {}
 
 JetFitObject::JetFitObject (const JetFitObject& rhs)
-  : ctheta(0), stheta(0), cphi(0), sphi(0),
+  : ParticleFitObject(rhs),
+    ctheta(0), stheta(0), cphi(0), sphi(0),
     p2(0), p(0), pt(0), px(0), py(0), pz(0), dpdE(0), dptdE(0), 
     dpxdE(0), dpydE(0), dpzdE(0), dpxdtheta(0), dpydtheta(0), chi2(0)
 {
