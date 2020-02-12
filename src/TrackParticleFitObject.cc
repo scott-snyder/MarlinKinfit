@@ -173,7 +173,8 @@ TrackParticleFitObject::~TrackParticleFitObject() {}
 
 
 TrackParticleFitObject::TrackParticleFitObject (const TrackParticleFitObject& rhs)
-  : trackReferencePoint( ThreeVector(0,0,0) ),
+  : ParticleFitObject(rhs),
+    trackReferencePoint( ThreeVector(0,0,0) ),
     trackPlaneNormal( ThreeVector(0,0,0) ),
     trackPcaVector( ThreeVector(0,0,0) ),
     trajectoryPointAtPCA( ThreeVector(0,0,0) ),
@@ -227,7 +228,7 @@ const char *TrackParticleFitObject::getParamName (int ilocal) const {
   return "undefined";
 }
 
-bool TrackParticleFitObject::updateParams (double p[], int idim) {
+bool TrackParticleFitObject::updateParams (double p[], int /*idim*/) {
   invalidateCache();
 
   double tempPar[NPAR]={0};
@@ -476,7 +477,6 @@ void TrackParticleFitObject::updateTrajectoryDerivatives() const {
   double D = d0;
   double P = phi0;
   double W = omega;
-  double Z = z0;
   double T = tanl;
   double S(0);
   

@@ -169,7 +169,7 @@ class VertexFitObject: public BaseFitObject {
                                             ) const;
 
 
-    virtual void getDerivatives (double der[], int idim) const {}
+    virtual void getDerivatives (double /*der*/[], int /*idim*/) const {}
 
 //    /// Add covariance matrix elements to 
 //    /// global covariance matrix of size idim x idim
