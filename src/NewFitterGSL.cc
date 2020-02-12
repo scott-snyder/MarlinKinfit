@@ -78,35 +78,35 @@ NewFitterGSL::NewFitterGSL()
 // destructor
 NewFitterGSL::~NewFitterGSL() {
 
-  if (x) gsl_vector_free (x);               x=0;
-  if (xold) gsl_vector_free (xold);         xold=0;
-  if (xnew) gsl_vector_free (xnew);         xnew=0;
-//   if (xbest) gsl_vector_free (xbest);       xbest=0;
-  if (dx) gsl_vector_free (dx);             dx=0;
-  if (dxscal) gsl_vector_free (dxscal);     dxscal=0;
-//   if (grad) gsl_vector_free (grad);         grad=0;
-  if (y) gsl_vector_free (y);               y=0;
-  if (yscal) gsl_vector_free (yscal);       yscal=0;
-  if (perr) gsl_vector_free (perr);         perr=0;
-  if (v1) gsl_vector_free (v1);             v1=0;
-  if (v2) gsl_vector_free (v2);             v2=0;
-//   if (Meval) gsl_vector_free (Meval);       Meval=0;
-  if (M) gsl_matrix_free (M);               M=0;
-  if (Mscal) gsl_matrix_free (Mscal);       Mscal=0;
-  if (W) gsl_matrix_free (W);               W=0;
-  if (W2) gsl_matrix_free (W2);             W2=0;
-  if (W3) gsl_matrix_free (W3);             W3=0;
-  if (M1) gsl_matrix_free (M1);             M1=0;
-  if (M2) gsl_matrix_free (M2);             M2=0;
-  if (M3) gsl_matrix_free (M3);             M3=0;
-  if (M4) gsl_matrix_free (M4);             M4=0;
-  if (M5) gsl_matrix_free (M5);             M5=0;
-//   if (Mevec) gsl_matrix_free (Mevec);       Mevec=0;
-  if (CC) gsl_matrix_free (CC);             CC=0;
-  if (CC1) gsl_matrix_free (CC1);           CC1=0;
-  if (CCinv) gsl_matrix_free (CCinv);       CCinv=0;
-  if (permW) gsl_permutation_free (permW);  permW=0;
-  if (eigenws) gsl_eigen_symm_free (eigenws); eigenws=0; eigenwsdim=0;
+  if (x) gsl_vector_free (x);
+  if (xold) gsl_vector_free (xold);
+  if (xnew) gsl_vector_free (xnew);
+//   if (xbest) gsl_vector_free (xbest);
+  if (dx) gsl_vector_free (dx);
+  if (dxscal) gsl_vector_free (dxscal);
+//   if (grad) gsl_vector_free (grad);
+  if (y) gsl_vector_free (y);
+  if (yscal) gsl_vector_free (yscal);
+  if (perr) gsl_vector_free (perr);
+  if (v1) gsl_vector_free (v1);
+  if (v2) gsl_vector_free (v2);
+//   if (Meval) gsl_vector_free (Meval);
+  if (M) gsl_matrix_free (M);
+  if (Mscal) gsl_matrix_free (Mscal);
+  if (W) gsl_matrix_free (W);
+  if (W2) gsl_matrix_free (W2);
+  if (W3) gsl_matrix_free (W3);
+  if (M1) gsl_matrix_free (M1);
+  if (M2) gsl_matrix_free (M2);
+  if (M3) gsl_matrix_free (M3);
+  if (M4) gsl_matrix_free (M4);
+  if (M5) gsl_matrix_free (M5);
+//   if (Mevec) gsl_matrix_free (Mevec);
+  if (CC) gsl_matrix_free (CC);
+  if (CC1) gsl_matrix_free (CC1);
+  if (CCinv) gsl_matrix_free (CCinv);
+  if (permW) gsl_permutation_free (permW);
+  if (eigenws) gsl_eigen_symm_free (eigenws);
 }
 
 
@@ -168,7 +168,7 @@ double NewFitterGSL::fit() {
   bool converged = 0;
   ierr = 0;
   
-  double chi2new = calcChi2();
+  double chi2new2 = calcChi2();
   nit = 0;
   
   do {
@@ -208,18 +208,18 @@ double NewFitterGSL::fit() {
 
     gsl_blas_dcopy (xnew, x);    
 
-    chi2new = calcChi2();
-    //cout << "chi2: " << chi2old << " -> " << chi2new << endl;
+    chi2new2 = calcChi2();
+    //cout << "chi2: " << chi2old << " -> " << chi2new2 << endl;
     
 //   *-- Convergence criteria 
 
     ++nit;
     if (nit > 200) ierr = 1;
     
-    converged = (abs (chi2new - chi2old) < 0.0001);
+    converged = (abs (chi2new2 - chi2old) < 0.0001);
                 
-//     if (abs (chi2new - chi2old) >= 0.001)
-//       cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << " -> try again\n";      
+//     if (abs (chi2new2 - chi2old) >= 0.001)
+//       cout << "abs (chi2new2 - chi2old)=" << abs (chi2new2 - chi2old) << " -> try again\n";      
 //     if (fvalbest >= 1E-3)
 //       cout << "fvalbest=" << fvalbest << " -> try again\n";      
 //     if (fvalbest >= 1E-6 && abs(fvals[0]-fvalbest) >= 0.2*fvalbest )
@@ -229,7 +229,7 @@ double NewFitterGSL::fit() {
 //       cout << "stepbest=" << stepbest << " -> try again\n";      
 //     cout << "converged=" << converged << endl;
     if (debug > 2 && converged) {
-      cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << "\n"      
+      cout << "abs (chi2new2 - chi2old)=" << abs (chi2new2 - chi2old) << "\n"      
            << "fvalbest=" << fvalbest << "\n"
            << "abs(fvals[0]-fvalbest)=" << abs(fvals[0]-fvalbest)<< "\n";      
     } 
@@ -280,7 +280,7 @@ double NewFitterGSL::fit() {
   }
 
 // *-- Turn chisq into probability.
-  fitprob = (chi2new >= 0 && ncon+nsoft-nunm> 0) ? gsl_cdf_chisq_Q(chi2new, ncon+nsoft-nunm) : -1;
+  fitprob = (chi2new2 >= 0 && ncon+nsoft-nunm> 0) ? gsl_cdf_chisq_Q(chi2new2, ncon+nsoft-nunm) : -1;
   
 #ifndef FIT_TRACEOFF
     if (tracer) tracer->finish (*this);
@@ -769,7 +769,7 @@ int NewFitterGSL::calcNewtonDx (gsl_vector *vecdx, gsl_vector *vecdxscal,
                                 gsl_matrix *MatM, gsl_matrix *MatMscal,  
                                 gsl_vector *vecy, gsl_vector *vecyscal, 
                                 gsl_matrix *MatW, gsl_matrix *MatW2, 
-                                gsl_permutation *permW,
+                                gsl_permutation *permW2,
                                 gsl_vector *vecw
                                ) {
   assert (vecdx);
@@ -792,8 +792,8 @@ int NewFitterGSL::calcNewtonDx (gsl_vector *vecdx, gsl_vector *vecdxscal,
   assert (MatW->size1 == idim && MatW->size2 == idim);
   assert (MatW2);
   assert (MatW2->size1 == idim && MatW2->size2 == idim);
-  assert (permW);
-  assert (permW->size == idim);
+  assert (permW2);
+  assert (permW2->size == idim);
   assert (vecw);
   assert (vecw->size == idim);
   
@@ -1017,7 +1017,7 @@ int NewFitterGSL::calcLimitedDx (double& alpha, double& mu, gsl_vector *vecxnew,
                 
 int NewFitterGSL::doLineSearch (double& alpha, gsl_vector *vecxnew, 
                                 int imode, 
-                                double phi0, double dphi0, double phiR,
+                                double phi0, double dphi0, double /*phiR*/,
                                 double eta, double zeta,  
                                 double mu,
                                 const gsl_vector *vecx, const gsl_vector *vecdx,       
@@ -1066,14 +1066,12 @@ int NewFitterGSL::doLineSearch (double& alpha, gsl_vector *vecxnew,
   updateParams (vecxnew);
     
   double alphaL = 0;
-  double phiL = phi0;
-  double dphiL = dphi0;
   
   double phi, dphi;
-  int nit = 0;
+  int nit2 = 0;
   
   do {
-    nit++;
+    nit2++;
     // Choose new alpha
     alpha = 0.5*(alphaL + alphaR);
     
@@ -1094,7 +1092,6 @@ int NewFitterGSL::doLineSearch (double& alpha, gsl_vector *vecxnew,
                           << " >= " << phi0 + eta*alpha*dphi0 
                           << " at alpha=" << alpha << endl;
       alphaR = alpha;
-      phiR = phi;
       continue;
     }
     
@@ -1108,8 +1105,6 @@ int NewFitterGSL::doLineSearch (double& alpha, gsl_vector *vecxnew,
                             << " < " << zeta*dphi0 
                             << " at alpha=" << alpha << endl;
         alphaL = alpha;
-        phiL   = phi;
-        dphiL  = dphi;
       }
       else {     
         break;
@@ -1121,13 +1116,12 @@ int NewFitterGSL::doLineSearch (double& alpha, gsl_vector *vecxnew,
                             << " < " << phi0 + zeta*alpha*dphi0 
                             << " at alpha=" << alpha << endl;
         alphaL = alpha;
-        phiL   = phi;
       }
       else {     
         break;
       }  
     }
-  } while (nit < 30 && (alphaL == 0 || nit < 6));
+  } while (nit2 < 30 && (alphaL == 0 || nit2 < 6));
   if (alphaL > 0) alpha = alphaL;
   return 1;
 }
@@ -1339,13 +1333,13 @@ int NewFitterGSL::invertM() {
     return ifail;
 }
 
-void NewFitterGSL::setDebug (int debuglevel) {
-  debug = debuglevel;
+void NewFitterGSL::setDebug (int the_debuglevel) {
+  debug = the_debuglevel;
 }
 
 
 void NewFitterGSL::calcCovMatrix(gsl_matrix *MatW, 
-                                 gsl_permutation *permW,
+                                 gsl_permutation *permW2,
                                  gsl_vector *vecx) {
   // Set up equation system M*dadeta + dydeta = 0
   // here, dadeta is d a / d eta, i.e. the derivatives of the fitted 
@@ -1394,7 +1388,7 @@ void NewFitterGSL::calcCovMatrix(gsl_matrix *MatW,
 
   // Calculate LU decomposition of M into M3
   int signum;
-  int result = gsl_linalg_LU_decomp (MatW, permW, &signum);
+  int result = gsl_linalg_LU_decomp (MatW, permW2, &signum);
  
   if (debug > 3) {
     cout << "calcCovMatrix: gsl_linalg_LU_decomp result=" << result << endl;
@@ -1402,7 +1396,7 @@ void NewFitterGSL::calcCovMatrix(gsl_matrix *MatW,
   }  
 
   // Calculate inverse of M, store in M3
-  int ifail = gsl_linalg_LU_invert (MatW, permW, M3);
+  int ifail = gsl_linalg_LU_invert (MatW, permW2, M3);
   
   if (debug > 3) {
     cout << "calcCovMatrix: gsl_linalg_LU_invert ifail=" << ifail << endl;
@@ -1765,7 +1759,7 @@ int NewFitterGSL::solveSystemLU (      gsl_vector *vecdxscal,
   
 
 int NewFitterGSL::solveSystemSVD (      gsl_vector *vecdxscal, 
-                                         double& detW,
+                                         double& /*detW*/,
                                    const gsl_vector *vecyscal, 
                                    const gsl_matrix *MatMscal,  
                                          gsl_matrix *MatW,   
@@ -1806,7 +1800,7 @@ int NewFitterGSL::solveSystemSVD (      gsl_vector *vecdxscal,
 
 gsl_matrix_view NewFitterGSL::calcZ (int& rankA, gsl_matrix *MatW1,  gsl_matrix *MatW2, 
                                      gsl_vector *vecw1, gsl_vector *vecw2, 
-                                     gsl_permutation *permW, double eps) {
+                                     gsl_permutation *permW2, double eps) {
   assert (MatW1);
   assert (MatW1->size1 == idim && MatW1->size2 == idim);
   assert (MatW2);
@@ -1815,8 +1809,8 @@ gsl_matrix_view NewFitterGSL::calcZ (int& rankA, gsl_matrix *MatW1,  gsl_matrix 
   assert (vecw1->size == idim);
   assert (vecw2);
   assert (vecw2->size == idim);
-  assert (permW);
-  assert (permW->size == idim);
+  assert (permW2);
+  assert (permW2->size == idim);
   
   // fill A and AT
   assembleConstDer (MatW2);                    
@@ -1827,9 +1821,9 @@ gsl_matrix_view NewFitterGSL::calcZ (int& rankA, gsl_matrix *MatW1,  gsl_matrix 
   gsl_matrix_view R        (gsl_matrix_submatrix       (MatW1, npar, 0,    ncon, npar));
 
   int signum = 0;
-  //gsl_linalg_QRPT_decomp   (&QR.matrix, vecw1, permW, &signum, vecw2);
+  //gsl_linalg_QRPT_decomp   (&QR.matrix, vecw1, permW2, &signum, vecw2);
   //gsl_linalg_QR_unpack     (&QR.matrix, vecw1, &Q.matrix, &R.matrix);
-  gsl_linalg_QRPT_decomp2 (&AT.matrix, &Q.matrix, &R.matrix, vecw1, permW, &signum, vecw2); 
+  gsl_linalg_QRPT_decomp2 (&AT.matrix, &Q.matrix, &R.matrix, vecw1, permW2, &signum, vecw2); 
 
   rankA = 0;
   for (int i = 0; i < ncon; ++i) {
@@ -1843,7 +1837,7 @@ gsl_matrix_view NewFitterGSL::calcReducedHessian (int& rankH, gsl_matrix *MatW1,
                                                   const gsl_vector *vecx, gsl_matrix *MatW2, 
                                                   gsl_matrix *MatW3, 
                                                   gsl_vector *vecw1, gsl_vector *vecw2, 
-                                                  gsl_permutation *permW, double eps) {
+                                                  gsl_permutation *permW2, double eps) {
   assert (MatW1);
   assert (MatW1->size1 == idim && MatW1->size2 == idim);
   assert (vecx);
@@ -1856,12 +1850,12 @@ gsl_matrix_view NewFitterGSL::calcReducedHessian (int& rankH, gsl_matrix *MatW1,
   assert (vecw1->size == idim);
   assert (vecw2);
   assert (vecw2->size == idim);
-  assert (permW);
-  assert (permW->size == idim);
+  assert (permW2);
+  assert (permW2->size == idim);
   
   int rankA;
   // Z is a matrix view of MatW2!
-  gsl_matrix_view Z = calcZ (rankA, MatW2, MatW1, vecw1, vecw2, permW, eps);
+  gsl_matrix_view Z = calcZ (rankA, MatW2, MatW1, vecw1, vecw2, permW2, eps);
   
   // fill Lagrangian
   assembleG (MatW1, vecx);      
@@ -1886,7 +1880,7 @@ gsl_vector_view NewFitterGSL::calcReducedHessianEigenvalues (int& rankH, gsl_mat
                                                   const gsl_vector *vecx, gsl_matrix *MatW2, 
                                                   gsl_matrix *MatW3, 
                                                   gsl_vector *vecw1, gsl_vector *vecw2, 
-                                                  gsl_permutation *permW, gsl_eigen_symm_workspace *eigenws, 
+                                                  gsl_permutation *permW2, gsl_eigen_symm_workspace *eigenws2, 
                                                   double eps) {
   assert (MatW1);
   assert (MatW1->size1 == idim && MatW1->size2 == idim);
@@ -1900,18 +1894,18 @@ gsl_vector_view NewFitterGSL::calcReducedHessianEigenvalues (int& rankH, gsl_mat
   assert (vecw1->size == idim);
   assert (vecw2);
   assert (vecw2->size == idim);
-  assert (permW);
-  assert (permW->size == idim);
-  assert (eigenws);
+  assert (permW2);
+  assert (permW2->size == idim);
+  assert (eigenws2);
   
-  gsl_matrix_view Hred = calcReducedHessian (rankH, MatW1, vecx, MatW2, MatW3, vecw1, vecw2, permW, eps);
+  gsl_matrix_view Hred = calcReducedHessian (rankH, MatW1, vecx, MatW2, MatW3, vecw1, vecw2, permW2, eps);
 
   gsl_matrix_view Hredcopy (gsl_matrix_submatrix       (MatW3, 0,    0,    rankH, rankH));
   // copy Hred -> Hredcopy
   gsl_matrix_memcpy (&Hredcopy.matrix, &Hred.matrix);
     
   gsl_vector_view eval (gsl_vector_subvector (vecw1, 0, rankH));
-  gsl_eigen_symm (&Hredcopy.matrix, &eval.vector, eigenws);
+  gsl_eigen_symm (&Hredcopy.matrix, &eval.vector, eigenws2);
   
   return eval;
 }

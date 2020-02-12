@@ -74,7 +74,7 @@ ParticleFitObject::~ParticleFitObject()
 {}
 
 ParticleFitObject::ParticleFitObject (const ParticleFitObject& rhs)
-  : mass(0), fourMomentum( FourVector(0,0,0,0) )
+  : BaseFitObject(rhs), mass(0), fourMomentum( FourVector(0,0,0,0) )
 {
   //std::cout << "copying ParticleFitObject with name" << rhs.name << std::endl;
   ParticleFitObject::assign (rhs);
@@ -163,7 +163,7 @@ std::ostream&  ParticleFitObject::print (std::ostream& os) const {
   return os;
 }
 
-void ParticleFitObject::addToGlobalChi2DerVectorNum (double *y, int idim, double eps)  {
+void ParticleFitObject::addToGlobalChi2DerVectorNum (double *y, int /*idim*/, double eps)  {
   for (int ilocal = 0; ilocal < getNPar(); ++ilocal) {
     int iglobal = getGlobalParNum(ilocal);
     y[iglobal] += num1stDerivative (ilocal, eps);

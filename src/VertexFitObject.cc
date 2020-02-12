@@ -57,7 +57,8 @@ VertexFitObject::VertexFitObject(const char *name_,
 
 }
 
-VertexFitObject::VertexFitObject (const VertexFitObject& rhs) 
+VertexFitObject::VertexFitObject (const VertexFitObject& rhs)
+  : BaseFitObject(rhs)
 {
   //  copy (rhs);
   VertexFitObject::assign (rhs);
