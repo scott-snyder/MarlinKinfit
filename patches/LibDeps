@@ -1,5 +1,5 @@
 Bottom: d5898bdd280e6fe55e7a1af09c7a426b6ee09365
-Top:    d5898bdd280e6fe55e7a1af09c7a426b6ee09365
+Top:    6601743a61a6ec40311c536ba9556c2799d3873a
 Author: scott snyder <sss@karma>
 Date:   2020-02-12 11:46:35 -0500
 
@@ -8,4 +8,18 @@ LibDeps workaround
 
 ---
 
-
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 49ba24d..06c96e1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -90,5 +90,6 @@ INSTALL_SHARED_LIBRARY( ${PROJECT_NAME} DESTINATION lib )
+ DISPLAY_STD_VARIABLES()
+ 
+ # generate and install following configuration files
+-GENERATE_PACKAGE_CONFIGURATION_FILES( MarlinKinfitConfig.cmake MarlinKinfitConfigVersion.cmake MarlinKinfitLibDeps.cmake )
++GENERATE_PACKAGE_CONFIGURATION_FILES( MarlinKinfitConfig.cmake MarlinKinfitConfigVersion.cmake )
+ 
++INSTALL (FILES ${PROJECT_SOURCE_DIR}/cmake/MarlinKinfitLibDeps.cmake DESTINATION lib/cmake )
+diff --git a/cmake/MarlinKinfitLibDeps.cmake b/cmake/MarlinKinfitLibDeps.cmake
+new file mode 100644
+index 0000000..e69de29
