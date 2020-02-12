@@ -117,7 +117,8 @@ ISRPhotonFitObject::~ISRPhotonFitObject() {}
 
 
 ISRPhotonFitObject::ISRPhotonFitObject (const ISRPhotonFitObject& rhs)
-  : cachevalid(false),    
+  : ParticleFitObject(rhs),
+    cachevalid(false),    
     pt2(0), p2(0), p(0), pz(0),
     dpx0(0), dpy0(0), dpz0(0), dE0(0), dpx1(0), dpy1(0), dpz1(0), dE1(0),
     dpx2(0), dpy2(0), dpz2(0), dE2(0), d2pz22(0), d2E22(0),
