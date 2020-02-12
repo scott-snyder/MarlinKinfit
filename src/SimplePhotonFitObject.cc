@@ -61,7 +61,8 @@ SimplePhotonFitObject::SimplePhotonFitObject(double px, double py, double pz, do
 // destructor
 SimplePhotonFitObject::~SimplePhotonFitObject() {}
 
-SimplePhotonFitObject::SimplePhotonFitObject (const SimplePhotonFitObject& rhs) : pt2(0), p2(0), p(0),dE0(0), dE1(0), dE2(0),chi2(0)
+SimplePhotonFitObject::SimplePhotonFitObject (const SimplePhotonFitObject& rhs) : ParticleFitObject(rhs),
+                                                                                  pt2(0), p2(0), p(0),dE0(0), dE1(0), dE2(0),chi2(0)
 {
   //std::cout << "copying SimplePhotonFitObject with name" << rhs.name << std::endl;
   SimplePhotonFitObject::assign (rhs);
