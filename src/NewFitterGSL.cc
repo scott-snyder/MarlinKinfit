@@ -77,111 +77,36 @@ NewFitterGSL::NewFitterGSL()
 
 // destructor
 NewFitterGSL::~NewFitterGSL() {
-  if (x) {
-    gsl_vector_free(x);
-    x = 0;
-  }
-  if (xold) {
-    gsl_vector_free(xold);
-    xold = 0;
-  }
-  if (xnew) {
-    gsl_vector_free(xnew);
-    xnew = 0;
-  }
-  //   if (xbest) gsl_vector_free (xbest);       xbest=0;
-  if (dx) {
-    gsl_vector_free(dx);
-    dx = 0;
-  }
-  if (dxscal) {
-    gsl_vector_free(dxscal);
-    dxscal = 0;
-  }
-  //   if (grad) gsl_vector_free (grad);         grad=0;
-  if (y) {
-    gsl_vector_free(y);
-    y = 0;
-  }
-  if (yscal) {
-    gsl_vector_free(yscal);
-    yscal = 0;
-  }
-  if (perr) {
-    gsl_vector_free(perr);
-    perr = 0;
-  }
-  if (v1) {
-    gsl_vector_free(v1);
-    v1 = 0;
-  }
-  if (v2) {
-    gsl_vector_free(v2);
-    v2 = 0;
-  }
-  //   if (Meval) gsl_vector_free (Meval);       Meval=0;
-  if (M) {
-    gsl_matrix_free(M);
-    M = 0;
-  }
-  if (Mscal) {
-    gsl_matrix_free(Mscal);
-    Mscal = 0;
-  }
-  if (W) {
-    gsl_matrix_free(W);
-    W = 0;
-  }
-  if (W2) {
-    gsl_matrix_free(W2);
-    W2 = 0;
-  }
-  if (W3) {
-    gsl_matrix_free(W3);
-    W3 = 0;
-  }
-  if (M1) {
-    gsl_matrix_free(M1);
-    M1 = 0;
-  }
-  if (M2) {
-    gsl_matrix_free(M2);
-    M2 = 0;
-  }
-  if (M3) {
-    gsl_matrix_free(M3);
-    M3 = 0;
-  }
-  if (M4) {
-    gsl_matrix_free(M4);
-    M4 = 0;
-  }
-  if (M5) {
-    gsl_matrix_free(M5);
-    M5 = 0;
-  }
-  //   if (Mevec) gsl_matrix_free (Mevec);       Mevec=0;
-  if (CC) {
-    gsl_matrix_free(CC) ;
-    CC = 0;
-  }
-  if (CC1) {
-    gsl_matrix_free(CC1);
-    CC1 = 0;
-  }
-  if (CCinv) {
-    gsl_matrix_free(CCinv);
-    CCinv = 0;
-  }
-  if (permW) {
-    gsl_permutation_free(permW);
-    permW = 0;
-  }
-  if (eigenws) {
-    gsl_eigen_symm_free(eigenws);
-    eigenws = 0;
-    eigenwsdim = 0;
-  }
+
+  if (x) gsl_vector_free (x);
+  if (xold) gsl_vector_free (xold);
+  if (xnew) gsl_vector_free (xnew);
+//   if (xbest) gsl_vector_free (xbest);
+  if (dx) gsl_vector_free (dx);
+  if (dxscal) gsl_vector_free (dxscal);
+//   if (grad) gsl_vector_free (grad);
+  if (y) gsl_vector_free (y);
+  if (yscal) gsl_vector_free (yscal);
+  if (perr) gsl_vector_free (perr);
+  if (v1) gsl_vector_free (v1);
+  if (v2) gsl_vector_free (v2);
+//   if (Meval) gsl_vector_free (Meval);
+  if (M) gsl_matrix_free (M);
+  if (Mscal) gsl_matrix_free (Mscal);
+  if (W) gsl_matrix_free (W);
+  if (W2) gsl_matrix_free (W2);
+  if (W3) gsl_matrix_free (W3);
+  if (M1) gsl_matrix_free (M1);
+  if (M2) gsl_matrix_free (M2);
+  if (M3) gsl_matrix_free (M3);
+  if (M4) gsl_matrix_free (M4);
+  if (M5) gsl_matrix_free (M5);
+//   if (Mevec) gsl_matrix_free (Mevec);
+  if (CC) gsl_matrix_free (CC);
+  if (CC1) gsl_matrix_free (CC1);
+  if (CCinv) gsl_matrix_free (CCinv);
+  if (permW) gsl_permutation_free (permW);
+  if (eigenws) gsl_eigen_symm_free (eigenws);
 }
 
 
@@ -294,7 +219,7 @@ double NewFitterGSL::fit() {
     converged = (abs (chi2new - chi2old) < 0.0001);
                 
 //     if (abs (chi2new - chi2old) >= 0.001)
-//       cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << " -> try again\n";      
+//       cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << " -> try again\n";
 //     if (fvalbest >= 1E-3)
 //       cout << "fvalbest=" << fvalbest << " -> try again\n";      
 //     if (fvalbest >= 1E-6 && abs(fvals[0]-fvalbest) >= 0.2*fvalbest )
@@ -304,7 +229,7 @@ double NewFitterGSL::fit() {
 //       cout << "stepbest=" << stepbest << " -> try again\n";      
 //     cout << "converged=" << converged << endl;
     if (debug > 2 && converged) {
-      cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << "\n"      
+      cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << "\n"
            << "fvalbest=" << fvalbest << "\n"
            << "abs(fvals[0]-fvalbest)=" << abs(fvals[0]-fvalbest)<< "\n";      
     } 
@@ -1896,7 +1821,7 @@ gsl_matrix_view NewFitterGSL::calcZ (int& rankA, gsl_matrix *MatW1,  gsl_matrix 
   gsl_matrix_view R        (gsl_matrix_submatrix       (MatW1, npar, 0,    ncon, npar));
 
   int signum = 0;
-  //gsl_linalg_QRPT_decomp   (&QR.matrix, vecw1, permW, &signum, vecw2);
+  //gsl_linalg_QRPT_decomp   (&QR.matrix, vecw1, permW2, &signum, vecw2);
   //gsl_linalg_QR_unpack     (&QR.matrix, vecw1, &Q.matrix, &R.matrix);
   gsl_linalg_QRPT_decomp2 (&AT.matrix, &Q.matrix, &R.matrix, vecw1, PermW, &signum, vecw2); 
 

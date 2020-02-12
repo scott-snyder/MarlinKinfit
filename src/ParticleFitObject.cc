@@ -76,7 +76,7 @@ ParticleFitObject::ParticleFitObject()
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wextra"
 ParticleFitObject::ParticleFitObject (const ParticleFitObject& rhs)
-  : mass(0), fourMomentum( FourVector(0,0,0,0) )
+  : BaseFitObject(rhs), mass(0), fourMomentum( FourVector(0,0,0,0) )
 {
   //std::cout << "copying ParticleFitObject with name" << rhs.name << std::endl;
   ParticleFitObject::assign (rhs);
