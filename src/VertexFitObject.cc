@@ -57,17 +57,12 @@ VertexFitObject::VertexFitObject(const char *name_,
 
 }
 
-// We get a warning that BaseFitObject should be explicitly initialized
-// here, but I don't want to change this part because, I think everything is
-// done properly already and not changing behavior is more important.
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wextra"
 VertexFitObject::VertexFitObject (const VertexFitObject& rhs)
+  : BaseFitObject(rhs)
 {
   //  copy (rhs);
   VertexFitObject::assign (rhs);
 }
-#pragma GCC diagnostic pop
 
 
 VertexFitObject& VertexFitObject::operator= (const VertexFitObject& rhs) {

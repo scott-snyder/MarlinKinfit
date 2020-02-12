@@ -178,7 +178,8 @@ TrackParticleFitObject::~TrackParticleFitObject() {}
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wextra"
 TrackParticleFitObject::TrackParticleFitObject (const TrackParticleFitObject& rhs)
-  : trackReferencePoint( ThreeVector(0,0,0) ),
+  : ParticleFitObject(rhs),
+    trackReferencePoint( ThreeVector(0,0,0) ),
     trackPlaneNormal( ThreeVector(0,0,0) ),
     trackPcaVector( ThreeVector(0,0,0) ),
     trajectoryPointAtPCA( ThreeVector(0,0,0) ),

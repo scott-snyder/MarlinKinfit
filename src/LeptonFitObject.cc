@@ -205,7 +205,8 @@ LeptonFitObject::~LeptonFitObject() {}
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wextra"
 LeptonFitObject::LeptonFitObject (const LeptonFitObject& rhs)
-  : ctheta(0), stheta(0), stheta2(0), cphi(0), sphi(0), cottheta(0),
+  : ParticleFitObject(rhs),
+    ctheta(0), stheta(0), stheta2(0), cphi(0), sphi(0), cottheta(0),
     p2(0), p(0), e(0), e2(0), pt(0), pt2(0), pt3(0), px(0), py(0), pz(0), dpdptinv(0), dpdtheta(0), dptdptinv(0),
     dpxdptinv(0), dpydptinv(0), dpzdptinv(0), dpxdtheta(0), dpydtheta(0), dpzdtheta(0), dpxdphi(0), dpydphi(0), dpzdphi(0),
     chi2(0), dEdptinv(0), dEdtheta(0), dEdp(0), qsign(0), ptinv2(0)
