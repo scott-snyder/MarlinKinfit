@@ -1,15 +1,19 @@
 {
   "version": 5,
-  "prev": "b32564cc2e4323ac078167bf32b69a0ae23133b2",
-  "head": "ab52ead66e7217e4fe03bb5eb4e9d43c083be7df",
+  "prev": "32d906cd99f8d280fbfa3e29cb83a04ec0643671",
+  "head": "2f7792a08f26ce67baf457b074f4ce7cf3d0e481",
   "applied": [
-    "gitignore"
+    "gitignore",
+    "LibDeps"
   ],
   "unapplied": [],
   "hidden": [],
   "patches": {
     "gitignore": {
       "oid": "ab52ead66e7217e4fe03bb5eb4e9d43c083be7df"
+    },
+    "LibDeps": {
+      "oid": "2f7792a08f26ce67baf457b074f4ce7cf3d0e481"
     }
   }
 }
