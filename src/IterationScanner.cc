@@ -84,9 +84,9 @@ void IterationScanner::doScan (int xglobal,
   
   if (xglobal >= idim) return;
   if (yglobal >= idim) return;
-  
-  double *parsave  = new double [idim];
-  double *par  = new double [idim];
+
+  std::vector<double> parsave (idim);
+  std::vector<double> par (idim);
   
   // Get starting values
   for (FitObjectIterator i = fitobjects->begin(); i != fitobjects->end(); ++i) {
@@ -137,13 +137,13 @@ void IterationScanner::doScan (int xglobal,
       double y = (iy - 0.5)*(ystop-ystart)/ny + ystart;
       
       // Set parameters
-      for (int i = 0; i < idim; ++i) par[i] = parsave[i];
+      par = parsave;
       par[xglobal] = x;
       par[yglobal] = y;
       for (FitObjectIterator i = fitobjects->begin(); i != fitobjects->end(); ++i) {
         BaseFitObject *fo = *i;
         assert (fo);
-        fo->updateParams(par, idim);
+        fo->updateParams(par.data(), idim);
       }
       
       for (unsigned int i = 0; i < fitobjects->size();  ++i) {
@@ -180,9 +180,6 @@ void IterationScanner::doScan (int xglobal,
   for (unsigned int i = 0; i < fitobjects_backup.size();  ++i) {
     delete fitobjects_backup[i];
   }
-
-  delete par;
-  delete parsave;
 }
 
 #endif // MARLIN_USE_ROOT
