@@ -1475,8 +1475,7 @@ void NewFitterGSL::determineLambdas (gsl_vector *vecxnew,
   gsl_vector_view lambdanew (gsl_vector_subvector (vecxnew, npar, ncon));
 
   if (debug > 5) {
-    gsl_vector_const_view lambda (gsl_vector_const_subvector (vecx, npar, ncon));
-    cout << "lambda: " <<endl;;
+    cout << "lambda: " <<endl;
     gsl_vector_fprintf (stdout, &lambdanew.vector, "%f");
     cout << endl;
   }
