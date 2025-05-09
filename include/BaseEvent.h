@@ -22,7 +22,7 @@
  * directly in the main program.
  * 
  *
- * Author: Jenny Böhme, Benno List
+ * Author: Jenny BÃ¶hme, Benno List
  * $Date: 2008/02/12 10:19:05 $
  * $Author: blist $
  *
