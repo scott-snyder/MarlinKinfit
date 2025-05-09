@@ -1,12 +1,13 @@
 {
   "version": 5,
-  "prev": "ed9c01674db12277ea9de72670c27b522a6aacf2",
-  "head": "978a3b8fcb4158d4c8323dfd20f4b236c45f74b1",
+  "prev": "3f66beb99828e07cafa918341e3ea7c687758d48",
+  "head": "198134d518cdb124b3c64c25ba439be20bfcc84b",
   "applied": [
     "gitignore",
     "LibDeps",
     "warn",
-    "warn2"
+    "warn2",
+    "utf8"
   ],
   "unapplied": [],
   "hidden": [],
@@ -22,6 +23,9 @@
     },
     "warn2": {
       "oid": "978a3b8fcb4158d4c8323dfd20f4b236c45f74b1"
+    },
+    "utf8": {
+      "oid": "198134d518cdb124b3c64c25ba439be20bfcc84b"
     }
   }
 }

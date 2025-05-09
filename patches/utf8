@@ -1,0 +1,8 @@
+Bottom: a8e869fcdb8d7aaca559596327a49fa5ecbaadc4
+Top:    a8e869fcdb8d7aaca559596327a49fa5ecbaadc4
+Author: sss <sss@karma>
+Date:   2025-05-09 14:41:32 -0400
+
+Convert latin-1 to utf-8.
+
+Avoids some warnings from clang.
