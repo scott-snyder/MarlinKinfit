@@ -279,8 +279,8 @@ double NewtonFitterGSL::fit() {
 
     calcy();
     //cout << "New fval: " << 0.5*pow(gsl_blas_dnrm2 (yscal), 2) << endl;
-    chi2new2 = calcChi2();
-    //cout << "chi2: " << chi2old2 << " -> " << chi2new2 << endl;
+    chi2new = calcChi2();
+    //cout << "chi2: " << chi2old2 << " -> " << chi2new << endl;
    
     if (debug>3 && (nit==0 || nit<nitdebug)) {
       cout << "After solving equations: \n";
@@ -291,16 +291,16 @@ double NewtonFitterGSL::fit() {
 //   *-- Convergence criteria 
 
     if (debug > 1&& nit<nitdebug) {
-      cout << "old chi2: " << chi2old2 << ", new chi2: " << chi2new2 << ", diff=" << chi2old2-chi2new2 << endl;
+      cout << "old chi2: " << chi2old << ", new chi2: " << chi2new << ", diff=" << chi2old-chi2new << endl;
     }
     ++nit;
     if (nit > 200) ierr = 1;
     
-    converged = (abs (chi2new2 - chi2old2) < 0.001 && fvalbest < 1E-3 && 
+    converged = (abs (chi2new - chi2old) < 0.001 && fvalbest < 1E-3 &&
                 (fvalbest < 1E-6 || abs(fvals[0]-fvalbest) < 0.2*fvalbest));
                 
-//     if (abs (chi2new2 - chi2old2) >= 0.001)
-//       cout << "abs (chi2new2 - chi2old2)=" << abs (chi2new2 - chi2old2) << " -> try again\n";      
+//     if (abs (chi2new - chi2old) >= 0.001)
+//       cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << " -> try again\n";
 //     if (fvalbest >= 1E-3)
 //       cout << "fvalbest=" << fvalbest << " -> try again\n";      
 //     if (fvalbest >= 1E-6 && abs(fvals[0]-fvalbest) >= 0.2*fvalbest )
@@ -310,7 +310,7 @@ double NewtonFitterGSL::fit() {
 //       cout << "stepbest=" << stepbest << " -> try again\n";      
 //     cout << "converged=" << converged << endl;
     if (debug > 0 && converged) {
-      cout << "abs (chi2new2 - chi2old2)=" << abs (chi2new2 - chi2old2) << "\n"      
+      cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << "\n"
            << "fvalbest=" << fvalbest << "\n"
            << "abs(fvals[0]-fvalbest)=" << abs(fvals[0]-fvalbest)<< "\n";      
     } 
@@ -361,7 +361,7 @@ double NewtonFitterGSL::fit() {
   }
 
 // *-- Turn chisq into probability.
-  fitprob = (chi2new2 >= 0 && ncon+nsoft-nunm> 0) ? gsl_cdf_chisq_Q(chi2new2, ncon+nsoft-nunm) : -1;
+  fitprob = (chi2new >= 0 && ncon+nsoft-nunm> 0) ? gsl_cdf_chisq_Q(chi2new, ncon+nsoft-nunm) : -1;
   
 #ifndef FIT_TRACEOFF
     if (tracer) tracer->finish (*this);
@@ -448,7 +448,7 @@ bool NewtonFitterGSL::initialize() {
   ini_gsl_permutation (permM, idim);
   
   if (ws && wsdim != idim) {
-    gsl_eigen_symmv_free (ws); 
+    gsl_eigen_symmv_free (ws);
     ws = 0;
   }
   if (ws == 0) ws = gsl_eigen_symmv_alloc (idim); 
@@ -548,15 +548,15 @@ int NewtonFitterGSL::calcDxSVD () {
      ierr=0;
      gsl_matrix_memcpy (M1, Mscal);
      if (debug > 3) cout << "NewtonFitterGSL::calcDxSVD: Calling gsl_eigen_symmv" << endl;
-     ierr2 = gsl_eigen_symmv (M1, Meval, Mevec, ws); 
-     if (debug > 3) cout << "NewtonFitterGSL::calcDxSVD: result of gsl_eigen_symmv: " << ierr2 << endl;
-     if (ierr2 != 0) {
-       cerr << "NewtonFitter::calcDxSVD: ierr=" << ierr2 << "from gsl_eigen_symmv!\n";
+     ierr = gsl_eigen_symmv (M1, Meval, Mevec, ws); 
+     if (debug > 3) cout << "NewtonFitterGSL::calcDxSVD: result of gsl_eigen_symmv: " << ierr << endl;
+     if (ierr != 0) {
+       cerr << "NewtonFitter::calcDxSVD: ierr=" << ierr << "from gsl_eigen_symmv!\n";
      }
      // Sort the eigenvalues and eigenvectors in descending order in magnitude
-     ierr2 = gsl_eigen_symmv_sort (Meval, Mevec, GSL_EIGEN_SORT_ABS_DESC);
-     if (ierr2 != 0) {
-       cerr << "NewtonFitter::calcDxSVD: ierr=" << ierr2 << "from gsl_eigen_symmv_sort!\n";
+     ierr = gsl_eigen_symmv_sort (Meval, Mevec, GSL_EIGEN_SORT_ABS_DESC);
+     if (ierr != 0) {
+       cerr << "NewtonFitter::calcDxSVD: ierr=" << ierr << "from gsl_eigen_symmv_sort!\n";
      }
      
      
@@ -945,37 +945,37 @@ int NewtonFitterGSL::optimizeScale () {
       debug_print (x, "x(3)");  
       debug_print (yscal, "yscal");  
     }
-    ++nit2;
-    scalevals[nit2] = scale;
-    fvals[nit2] = 0.5*pow (gsl_blas_dnrm2 (yscal), 2);
+    ++nit;
+    scalevals[nit] = scale;
+    fvals[nit] = 0.5*pow (gsl_blas_dnrm2 (yscal), 2);
     
     chi2new = calcChi2();
     
     
-//    if (chi2new <= chi2best && fvals[nit2] <= fvalbest) {
-//    if ((fvals[nit2] < fvalbest && chi2new <= chi2best) ||
-//        (fvals[nit2] < 1E-4 && chi2new < chi2best)) {
-    if ((fvals[nit2] < fvalbest)) {
+//    if (chi2new <= chi2best && fvals[nit] <= fvalbest) {
+//    if ((fvals[nit] < fvalbest && chi2new <= chi2best) ||
+//        (fvals[nit] < 1E-4 && chi2new < chi2best)) {
+    if ((fvals[nit] < fvalbest)) {
       if (debug > 3) {
         cout << "new best value: "
-             << "  scale " << scalevals[nit2] << " -> |y|^2 = " << fvals[nit2] 
+             << "  scale " << scalevals[nit] << " -> |y|^2 = " << fvals[nit] 
              << ", chi2=" << chi2new << ", old best chi2: " << chi2best << endl;      
       }
       gsl_vector_memcpy (xbest, x);
       chi2best = chi2new;
-      fvalbest = fvals[nit2];
+      fvalbest = fvals[nit];
       scalebest = scale;
       stepbest = scale*stepsize;
     }
     
-    if (fvals[nit2] < fvals[0] + ALF*scale*slope) break;
-    if (nit2 == 1) {
-      tmpscale = -slope/(2*(fvals[nit2] - fvals[0] - slope));
+    if (fvals[nit] < fvals[0] + ALF*scale*slope) break;
+    if (nit == 1) {
+      tmpscale = -slope/(2*(fvals[nit] - fvals[0] - slope));
       if (debug > 3) cout << "quadratic estimate for best scale: " << tmpscale << endl;
     }
     else {
-      double rhs1 = fvals[nit2] - fvals[0]-scale*slope;
-      double rhs2 = fvals[nit2-1] - fvals[0]-scaleold*slope;
+      double rhs1 = fvals[nit] - fvals[0]-scale*slope;
+      double rhs2 = fvals[nit-1] - fvals[0]-scaleold*slope;
       double a = (rhs1/(scale*scale)-rhs2/(scaleold*scaleold))/(scale-scaleold);
       double b = (-scaleold*rhs1/(scale*scale)+scale*rhs2/(scaleold*scaleold))/(scale-scaleold);
       if (a==0) tmpscale = -slope/(2*b);
@@ -992,10 +992,10 @@ int NewtonFitterGSL::optimizeScale () {
     scale = (tmpscale < 0.1*scale) ? 0.1*scale : tmpscale;
     if (debug > 1) cout << "New scale: " << scale << endl;
     
-  } while (nit2 < NITMAX && scale > 0.0001);
+  } while (nit < NITMAX && scale > 0.0001);
 
   if (debug > 1) {
-    for (int it = 0; it <= nit2; ++it) {
+    for (int it = 0; it <= nit; ++it) {
       cout << "  scale " << scalevals[it] << " -> |y|^2 = " << fvals[it] 
       << " should be " << fvals[0] + ALF*scale*slope << endl;
     }

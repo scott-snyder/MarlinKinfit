@@ -208,18 +208,18 @@ double NewFitterGSL::fit() {
 
     gsl_blas_dcopy (xnew, x);    
 
-    chi2new2 = calcChi2();
-    //cout << "chi2: " << chi2old << " -> " << chi2new2 << endl;
+    chi2new = calcChi2();
+    //cout << "chi2: " << chi2old << " -> " << chi2new << endl;
     
 //   *-- Convergence criteria 
 
     ++nit;
     if (nit > 200) ierr = 1;
     
-    converged = (abs (chi2new2 - chi2old) < 0.0001);
+    converged = (abs (chi2new - chi2old) < 0.0001);
                 
-//     if (abs (chi2new2 - chi2old) >= 0.001)
-//       cout << "abs (chi2new2 - chi2old)=" << abs (chi2new2 - chi2old) << " -> try again\n";      
+//     if (abs (chi2new - chi2old) >= 0.001)
+//       cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << " -> try again\n";
 //     if (fvalbest >= 1E-3)
 //       cout << "fvalbest=" << fvalbest << " -> try again\n";      
 //     if (fvalbest >= 1E-6 && abs(fvals[0]-fvalbest) >= 0.2*fvalbest )
@@ -229,7 +229,7 @@ double NewFitterGSL::fit() {
 //       cout << "stepbest=" << stepbest << " -> try again\n";      
 //     cout << "converged=" << converged << endl;
     if (debug > 2 && converged) {
-      cout << "abs (chi2new2 - chi2old)=" << abs (chi2new2 - chi2old) << "\n"      
+      cout << "abs (chi2new - chi2old)=" << abs (chi2new - chi2old) << "\n"
            << "fvalbest=" << fvalbest << "\n"
            << "abs(fvals[0]-fvalbest)=" << abs(fvals[0]-fvalbest)<< "\n";      
     } 
@@ -280,7 +280,7 @@ double NewFitterGSL::fit() {
   }
 
 // *-- Turn chisq into probability.
-  fitprob = (chi2new2 >= 0 && ncon+nsoft-nunm> 0) ? gsl_cdf_chisq_Q(chi2new2, ncon+nsoft-nunm) : -1;
+  fitprob = (chi2new >= 0 && ncon+nsoft-nunm> 0) ? gsl_cdf_chisq_Q(chi2new, ncon+nsoft-nunm) : -1;
   
 #ifndef FIT_TRACEOFF
     if (tracer) tracer->finish (*this);
@@ -1071,7 +1071,7 @@ int NewFitterGSL::doLineSearch (double& alpha, gsl_vector *vecxnew,
   nit = 0;
   
   do {
-    nit2++;
+    nit++;
     // Choose new alpha
     alpha = 0.5*(alphaL + alphaR);
     
@@ -1121,7 +1121,7 @@ int NewFitterGSL::doLineSearch (double& alpha, gsl_vector *vecxnew,
         break;
       }  
     }
-  } while (nit2 < 30 && (alphaL == 0 || nit2 < 6));
+  } while (nit < 30 && (alphaL == 0 || nit < 6));
   if (alphaL > 0) alpha = alphaL;
   return 1;
 }
@@ -1388,7 +1388,7 @@ void NewFitterGSL::calcCovMatrix(gsl_matrix *MatW,
 
   // Calculate LU decomposition of M into M3
   int signum;
-  int result = gsl_linalg_LU_decomp (MatW, permW2, &signum);
+  int result = gsl_linalg_LU_decomp (MatW, permW, &signum);
  
   if (debug > 3) {
     cout << "calcCovMatrix: gsl_linalg_LU_decomp result=" << result << endl;
@@ -1396,7 +1396,7 @@ void NewFitterGSL::calcCovMatrix(gsl_matrix *MatW,
   }  
 
   // Calculate inverse of M, store in M3
-  int ifail = gsl_linalg_LU_invert (MatW, permW2, M3);
+  int ifail = gsl_linalg_LU_invert (MatW, permW, M3);
   
   if (debug > 3) {
     cout << "calcCovMatrix: gsl_linalg_LU_invert ifail=" << ifail << endl;
