@@ -1,11 +1,12 @@
 {
   "version": 5,
-  "prev": "4bb05811ea48d324fb2e5213a81f553e660ca003",
-  "head": "68ee071bdf9187b83240d44dfaea8db27fa365d1",
-  "applied": [],
-  "unapplied": [
+  "prev": "17df6066769ba28f18b82d931351d7dcc2eaf5cf",
+  "head": "6146febfd892726e16303489438e2389d1b68d75",
+  "applied": [
     "gitignore",
-    "LibDeps",
+    "LibDeps"
+  ],
+  "unapplied": [
     "warn",
     "warn2",
     "utf8",
@@ -15,7 +16,7 @@
   "hidden": [],
   "patches": {
     "LibDeps": {
-      "oid": "2f7792a08f26ce67baf457b074f4ce7cf3d0e481"
+      "oid": "6146febfd892726e16303489438e2389d1b68d75"
     },
     "clang": {
       "oid": "047832a4832aae2b50551f0d35bcf5e3d45067d0"
@@ -24,7 +25,7 @@
       "oid": "a1ed5b940276905fe809ffd729eb6c9066f51b3a"
     },
     "gitignore": {
-      "oid": "ab52ead66e7217e4fe03bb5eb4e9d43c083be7df"
+      "oid": "b221081ee89181d0c1a2dcb6b997b91a1f6fa399"
     },
     "utf8": {
       "oid": "3e1ad831f5b68dd41be8c7c72b274eb0c979b8d0"
