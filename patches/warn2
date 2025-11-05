@@ -1,9 +1,0 @@
-Bottom: 300aa5b70c9a8e72a93b4f98ef0f52b5afe9a957
-Top:    300aa5b70c9a8e72a93b4f98ef0f52b5afe9a957
-Author: scott snyder <sss@karma>
-Date:   2025-11-04 21:24:59 -0500
-
-Fix compilation warnings.
-
-Change a couple enumns to static constexpr to avoid warnings about
-arithmetic mixing different enum types.
